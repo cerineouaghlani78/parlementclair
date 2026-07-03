@@ -2,6 +2,10 @@ import os
 import json
 import asyncio
 import logging
+
+import truststore
+truststore.inject_into_ssl()
+
 from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
 from groq import Groq
@@ -65,10 +69,11 @@ async def main():
                     "Tu es ParlementClair, une IA spécialisée dans la vulgarisation des données "
                     "parlementaires de l'Assemblée Nationale et du Sénat pour les citoyens français.\n\n"
                     "Règles strictes :\n"
-                    "1. Traduis systématiquement le jargon juridique ou politique en termes simples.\n"
+                    "1. Traduis systématiquement le jargon legislatif ou politique en termes simples.\n"
                     "2. Structure tes réponses avec des sections lisibles et des listes à puces.\n"
                     "3. Pour chaque texte législatif, explique de manière neutre : 'Ce que ça change concrètement'.\n"
-                    "4. Reste strictement impartial et objectif. Pas de parti pris."
+                    "4. Reste strictement impartial et objectif. Pas de parti pris.\n"
+                    "5. Si la requete de l'utilisateur est hors sujet (tout ce que ne concerne pas les donnees legislatives), reponds a l'utilisateur que tu ne traites pas ce genre de requete.\n"
                 )
 
                 # Utilisation de la question saisie par l'utilisateur
@@ -77,7 +82,18 @@ async def main():
                     {"role": "user", "content": user_question}
                 ]
 
-                def make_initial_request():
+                # Boucle agentique : on redonne les outils à chaque tour et on
+                # boucle tant que le modèle demande un appel d'outil, jusqu'à sa
+                # réponse finale en texte. Le garde-fou MAX_TOURS évite une
+                # boucle infinie si le modèle n'arrête jamais de chercher.
+                MAX_TOURS = 5
+                # Tier gratuit Groq : 8000 tokens/minute. On borne le volume de
+                # résultats d'outil renvoyé au modèle pour ne pas dépasser (un
+                # search légal peut renvoyer >100k tokens).
+                MAX_RESULTATS_OUTIL = 3
+                MAX_CHARS_OUTIL = 8000
+
+                def make_request():
                     return groq_client.chat.completions.create(
                         model="openai/gpt-oss-120b",
                         messages=messages,
@@ -86,44 +102,50 @@ async def main():
                         temperature=0.4
                     )
 
-                print("🔍 Recherche des données parlementaires en cours...")
-                response = await asyncio.to_thread(make_initial_request)
-                message = response.choices[0].message
+                message = None
+                for tour in range(MAX_TOURS):
+                    if tour == 0:
+                        print("🔍 Recherche des données parlementaires en cours...")
+                    else:
+                        print("✍️ Analyse et affinage des recherches...")
 
-                if getattr(message, 'tool_calls', None):
-                    tool_call = message.tool_calls[0]
-                    
-                    # Appel de l'outil MCP avec les arguments générés par Groq
-                    tool_args = json.loads(tool_call.function.arguments or "{}")
-                    tool_result = await session.call_tool(tool_call.function.name, tool_args)
+                    response = await asyncio.to_thread(make_request)
+                    message = response.choices[0].message
 
-                    # Enrichissement de l'historique
+                    # Pas d'appel d'outil : c'est la réponse finale.
+                    if not getattr(message, "tool_calls", None):
+                        break
+
+                    # Le modèle demande un ou plusieurs outils : on les exécute
+                    # tous, puis on renvoie les résultats au tour suivant.
                     messages.append(message)
-                    messages.append({
-                        "role": "tool",
-                        "tool_call_id": tool_call.id,
-                        "name": tool_call.function.name,
-                        "content": json.dumps(tool_result.content)
-                    })
-
-                    def make_final_request():
-                        return groq_client.chat.completions.create(
-                            model="openai/gpt-oss-120b",
-                            messages=messages,
-                            temperature=0.3
-                        )
-
-                    print("✍️ Analyse et simplification des textes législatifs...")
-                    final_response = await asyncio.to_thread(make_final_request)
-                    
-                    print("\n================ VERSION CITOYENNE (PARLEMENTCLAIR) ================")
-                    print(final_response.choices[0].message.content)
-                    print("==================================================================\n")
-                    
+                    for tool_call in message.tool_calls:
+                        tool_args = json.loads(tool_call.function.arguments or "{}")
+                        # On borne le nombre de résultats demandés à l'outil.
+                        if isinstance(tool_args.get("limit"), int):
+                            tool_args["limit"] = min(tool_args["limit"], MAX_RESULTATS_OUTIL)
+                        tool_result = await session.call_tool(tool_call.function.name, tool_args)
+                        # tool_result.content est une liste de blocs MCP (TextContent, ...),
+                        # des modèles pydantic non sérialisables directement.
+                        tool_content = [block.model_dump(mode="json") for block in tool_result.content]
+                        tool_text = json.dumps(tool_content, ensure_ascii=False)
+                        # Filet de sécurité : on tronque si le résultat reste trop
+                        # gros pour la limite de tokens/minute.
+                        if len(tool_text) > MAX_CHARS_OUTIL:
+                            tool_text = tool_text[:MAX_CHARS_OUTIL] + " …[résultat tronqué pour respecter la limite de tokens]"
+                        messages.append({
+                            "role": "tool",
+                            "tool_call_id": tool_call.id,
+                            "name": tool_call.function.name,
+                            "content": tool_text
+                        })
                 else:
-                    print("\n================ VERSION CITOYENNE (PARLEMENTCLAIR) ================")
-                    print(message.content)
-                    print("==================================================================\n")
+                    # Boucle épuisée sans réponse finale.
+                    print(f"\n⚠️ Le modèle n'a pas conclu après {MAX_TOURS} tours de recherche.")
+
+                print("\n================ VERSION CITOYENNE (PARLEMENTCLAIR) ================")
+                print(message.content if message else "(aucune réponse)")
+                print("==================================================================\n")
 
     except Exception as e:
         print(f"\n❌ Une erreur est survenue : {e}")

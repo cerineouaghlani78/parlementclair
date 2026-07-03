@@ -1,7 +1,3 @@
-# Template DEFI.md
-
-Remplissez les sections ci-dessous puis publiez le fichier `hackathon-an-2026/DEFI.md` dans votre dépôt.
-
 ### Nom du défi
 ParlementClair
 
@@ -56,11 +52,3 @@ Cochez les ressources utilisées en remplaçant `[ ]` par `[x]`.
 - [ ] `legiwatch-api-parlement` — API Parlement ✺ LegiWatch
 - [ ] `legiwatch-database-parlement` — Base de données Parlement ✺ LegiWatch
 - [ ] `legiwatch-serveur-mcp-parlement` — Serveur MCP Parlement ✺ LegiWatch
-
-### Galerie
-- [Image 1](images/image-1.png)
-- [Image 2](images/image-2.png)
-
-### Documents
-- [Image 1](docs/document-1.png)
-- [Image 2](docs/document-2.png)

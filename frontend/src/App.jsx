@@ -14,6 +14,8 @@ export default function App() {
         activeConv={conv.activeConv}
         onNewConversation={conv.newConversation}
         onOpenConv={conv.openConv}
+        onDeleteConv={conv.deleteConv}
+        sessions={conv.sessions}
       />
 
       <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>

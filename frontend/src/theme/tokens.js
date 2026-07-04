@@ -1,4 +1,4 @@
-// DSFR (gouv.fr) design tokens extracted from the LexClair hi-fi prototype.
+// DSFR (gouv.fr) design tokens extracted from the ParlementClair hi-fi prototype.
 export const dsfr = {
   // Bleu France + variants
   primary: '#000091',

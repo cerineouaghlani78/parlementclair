@@ -5,9 +5,9 @@ const Svg = ({ size = 16, fill = 'currentColor', children, style }) => (
   </svg>
 )
 
-export const StarIcon = (p) => (
+export const ChatBubbleIcon = (p) => (
   <Svg {...p}>
-    <path d="M12 1l2.928 6.32L22 9.113l-5.5 4.677L18.32 21 12 17.5 5.68 21l1.82-7.21L2 9.112l7.072-1.792z" />
+    <path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-4 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
   </Svg>
 )
 
@@ -41,12 +41,6 @@ export const CheckIcon = (p) => (
   </Svg>
 )
 
-export const GlobeIcon = (p) => (
-  <Svg {...p}>
-    <path d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
-  </Svg>
-)
-
 export const SendIcon = (p) => (
   <Svg {...p}>
     <path d="M13 7.828V20h-2V7.828l-5.364 5.364-1.414-1.414L12 4l7.778 7.778-1.414 1.414z" />
@@ -68,5 +62,11 @@ export const ChevronDownIcon = (p) => (
 export const DocIcon = (p) => (
   <Svg {...p}>
     <path d="M20 22H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zm-1-2V4H5v16h14zM8 7h8v2H8V7zm0 4h8v2H8v-2zm0 4h5v2H8v-2z" />
+  </Svg>
+)
+
+export const TrashIcon = (p) => (
+  <Svg {...p}>
+    <path d="M9 3h6a1 1 0 0 1 1 1v1h5v2h-1.055l-1.06 13.777A2 2 0 0 1 15.891 22H8.109a2 2 0 0 1-1.994-1.223L5.055 7H4V5h5V4a1 1 0 0 1 1-1zm-1.943 4L8.1 20h7.8l1.043-13H7.057zM10 9h2v9h-2V9zm4 0h2v9h-2V9z" />
   </Svg>
 )

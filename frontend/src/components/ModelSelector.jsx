@@ -1,5 +1,5 @@
 import { Dropdown } from 'antd'
-import { StarIcon, ChevronDownIcon } from './icons'
+import { ChatBubbleIcon, ChevronDownIcon } from './icons'
 import { MODELS } from '../data/fixtures'
 import { dsfr } from '../theme/tokens'
 
@@ -35,7 +35,7 @@ export default function ModelSelector({ model, open, onOpenChange, onSelect }) {
             onMouseEnter={(e) => (e.currentTarget.style.background = dsfr.accentHover)}
             onMouseLeave={(e) => (e.currentTarget.style.background = selected ? dsfr.accentHover : 'transparent')}
           >
-            <StarIcon size={16} fill={selected ? dsfr.primary : dsfr.primaryDisabled} style={{ marginTop: 2, flex: '0 0 auto' }} />
+            <ChatBubbleIcon size={16} fill={selected ? dsfr.primary : dsfr.primaryDisabled} style={{ marginTop: 2, flex: '0 0 auto' }} />
             <span style={{ minWidth: 0 }}>
               <span style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: dsfr.text }}>{m.name}</span>
               <span style={{ display: 'block', fontSize: '0.74rem', color: dsfr.textMuted, lineHeight: 1.3 }}>{m.desc}</span>
@@ -61,7 +61,7 @@ export default function ModelSelector({ model, open, onOpenChange, onSelect }) {
           color: dsfr.text,
         }}
       >
-        <StarIcon size={15} fill={dsfr.primary} />
+        <ChatBubbleIcon size={15} fill={dsfr.primary} />
         <span style={{ fontWeight: 500 }}>{model}</span>
         <ChevronDownIcon size={15} fill={dsfr.textMuted} />
       </button>

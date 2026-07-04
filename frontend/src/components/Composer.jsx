@@ -1,26 +1,11 @@
 import { Input } from 'antd'
-import { GlobeIcon, SendIcon, StopIcon } from './icons'
+import { SendIcon, StopIcon } from './icons'
 import { dsfr } from '../theme/tokens'
 
 const { TextArea } = Input
 
 // Composer partagé : accueil (docked=false) et conversation (docked=true).
-export default function Composer({
-  docked = false,
-  input,
-  onInput,
-  onKeyDown,
-  legifrance,
-  onToggleLegifrance,
-  streaming,
-  inputEmpty,
-  onPrimary,
-  model,
-}) {
-  const toolBg = legifrance ? dsfr.accentBg : '#fff'
-  const toolFg = legifrance ? dsfr.primary : dsfr.textMuted
-  const toolBd = legifrance ? dsfr.primaryDisabled : dsfr.neutralBorder
-
+export default function Composer({ docked = false, input, onInput, onKeyDown, streaming, inputEmpty, onPrimary, model }) {
   // Bouton primaire : Stop pendant le streaming (docked), sinon Envoyer.
   const isStop = docked && streaming
   const disabled = isStop ? false : inputEmpty
@@ -52,24 +37,6 @@ export default function Composer({
           style={{ padding: 0, fontSize: docked ? '0.98rem' : '1rem', lineHeight: 1.55, color: dsfr.text }}
         />
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: docked ? '0.35rem' : '0.4rem' }}>
-          <button
-            onClick={onToggleLegifrance}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              border: `1px solid ${toolBd}`,
-              background: toolBg,
-              color: toolFg,
-              borderRadius: 20,
-              padding: docked ? '0.3rem 0.65rem' : '0.32rem 0.7rem',
-              fontSize: docked ? '0.78rem' : '0.8rem',
-              fontWeight: 500,
-            }}
-          >
-            <GlobeIcon size={docked ? 14 : 15} />
-            Base Légifrance
-          </button>
           <span style={{ flex: '1 1 auto' }} />
           <button
             onClick={onPrimary}

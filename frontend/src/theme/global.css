@@ -65,3 +65,16 @@ a:focus-visible {
   border-radius: 8px;
   border: 2px solid #fff;
 }
+
+/* Export PDF : conteneur d'impression masqué à l'écran, seul visible à
+   l'impression. Cf. printFiche.jsx + PrintableFiche.jsx. */
+#print-root { display: none; }
+
+@media print {
+  #root { display: none !important; }
+  #print-root { display: block !important; }
+  html, body { background: #fff !important; }
+  /* Éviter les coupures de page au milieu d'une section de la fiche. */
+  .pf-section { break-inside: avoid; }
+  @page { size: A4; margin: 16mm 14mm; }
+}

@@ -65,6 +65,12 @@ export const DocIcon = (p) => (
   </Svg>
 )
 
+export const DownloadIcon = (p) => (
+  <Svg {...p}>
+    <path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z" />
+  </Svg>
+)
+
 export const TrashIcon = (p) => (
   <Svg {...p}>
     <path d="M9 3h6a1 1 0 0 1 1 1v1h5v2h-1.055l-1.06 13.777A2 2 0 0 1 15.891 22H8.109a2 2 0 0 1-1.994-1.223L5.055 7H4V5h5V4a1 1 0 0 1 1-1zm-1.943 4L8.1 20h7.8l1.043-13H7.057zM10 9h2v9h-2V9zm4 0h2v9h-2V9z" />

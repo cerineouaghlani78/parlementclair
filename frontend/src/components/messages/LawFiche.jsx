@@ -1,6 +1,7 @@
 import { AgentBadge } from './TextMessage'
-import { CheckIcon, ChevronDownIcon, ExternalIcon, DocIcon } from '../icons'
+import { CheckIcon, ChevronDownIcon, ExternalIcon, DocIcon, DownloadIcon } from '../icons'
 import { dsfr } from '../../theme/tokens'
+import { printFiche } from './printFiche'
 
 const IMPACT_STYLE = {
   positif: { icon: '✅', color: dsfr.success, bg: dsfr.successBg, border: dsfr.successBorder },
@@ -206,18 +207,43 @@ export default function LawFiche({ data }) {
         }}
       >
         {/* En-tête */}
-        <div style={{ marginBottom: '1rem' }}>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 0.45rem', color: dsfr.text, lineHeight: 1.3 }}>
-            {titreCourt || titre}
-          </h2>
-          {titreCourt && titre && titreCourt !== titre && (
-            <p style={{ fontSize: '0.82rem', color: dsfr.grey, margin: '0 0 0.55rem', lineHeight: 1.4 }}>{titre}</p>
-          )}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-            {numero && <Badge>n° {numero}</Badge>}
-            {datePromulgation && <Badge>Adoptée le {formatDate(datePromulgation)}</Badge>}
-            {datePublication && !datePromulgation && <Badge>JO du {formatDate(datePublication)}</Badge>}
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1rem' }}>
+          <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 0.45rem', color: dsfr.text, lineHeight: 1.3 }}>
+              {titreCourt || titre}
+            </h2>
+            {titreCourt && titre && titreCourt !== titre && (
+              <p style={{ fontSize: '0.82rem', color: dsfr.grey, margin: '0 0 0.55rem', lineHeight: 1.4 }}>{titre}</p>
+            )}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+              {numero && <Badge>n° {numero}</Badge>}
+              {datePromulgation && <Badge>Adoptée le {formatDate(datePromulgation)}</Badge>}
+              {datePublication && !datePromulgation && <Badge>JO du {formatDate(datePublication)}</Badge>}
+            </div>
           </div>
+
+          <button
+            type="button"
+            onClick={() => printFiche(data)}
+            title="Exporter cette fiche en PDF"
+            style={{
+              flex: '0 0 auto',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              background: dsfr.white,
+              border: `1px solid ${dsfr.border}`,
+              borderRadius: 8,
+              padding: '0.35rem 0.6rem',
+              fontSize: '0.78rem',
+              fontWeight: 500,
+              color: dsfr.primary,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <DownloadIcon size={14} fill={dsfr.primary} />
+            Exporter PDF
+          </button>
         </div>
 
         {/* Résumé vulgarisé */}

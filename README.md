@@ -28,6 +28,16 @@ L'inférence est entièrement gérée en local grâce à vLLM et au modèle Qwen
 * **Protocole :** MCP (Model Context Protocol)
 * **Source des données :** API / Base de l'Assemblée Tricoteuse
 
+---
+
+### Contributeurs
+
+* Theo Di Rosa
+* Alexis Faugeroux
+* Cérine Ouaghlani
+* Ahmed Dosso
+
+
 
 
 

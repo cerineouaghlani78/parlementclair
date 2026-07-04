@@ -1,3 +1,6 @@
+
+https://github.com/user-attachments/assets/b5187df4-6be2-4af7-bf73-7e2397085f47
+
 # Chatbot Législatif (MVP)
 
 Ce projet est un MVP d'application permettant d'interroger les données législatives françaises. L'objectif est d'obtenir des explications vulgarisées sur les textes de loi et d'analyser leurs impacts sectoriels.
@@ -16,19 +19,14 @@ L'inférence est entièrement gérée en local grâce à vLLM et au modèle Qwen
 
 ---
 
-## Démo Vidéo
-
-https://github.com/user-attachments/assets/b5187df4-6be2-4af7-bf73-7e2397085f47
-
----
-
 ## Stack Technique
 
-* Modèle LLM : Qwen 3.5
-* Moteur d'inférence : vLLM (Exécution 100% locale)
-* Protocole : MCP (Model Context Protocol)
-* Source des données : API / Base de l'Assemblée Tricoteuse
-* Interface : [À compléter, ex: Streamlit / Python]
+* **Interface utilisateur :** React
+* **Backend / API :** Python Flask
+* **Modèle LLM :** Qwen 3.5
+* **Moteur d'inférence :** vLLM (Exécution 100% locale)
+* **Protocole :** MCP (Model Context Protocol)
+* **Source des données :** API / Base de l'Assemblée Tricoteuse
 
 
 

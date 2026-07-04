@@ -36,6 +36,7 @@ L'inférence est entièrement gérée en local grâce à vLLM et au modèle Qwen
 * Alexis Faugeroux
 * Cérine Ouaghlani
 * Ahmed Dosso
+* Lohann Coant--Verdier
 
 
 

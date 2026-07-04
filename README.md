@@ -1,7 +1,7 @@
+# Chatbot Législatif (MVP)
 
 https://github.com/user-attachments/assets/b5187df4-6be2-4af7-bf73-7e2397085f47
 
-# Chatbot Législatif (MVP)
 
 Ce projet est un MVP d'application permettant d'interroger les données législatives françaises. L'objectif est d'obtenir des explications vulgarisées sur les textes de loi et d'analyser leurs impacts sectoriels.
 
